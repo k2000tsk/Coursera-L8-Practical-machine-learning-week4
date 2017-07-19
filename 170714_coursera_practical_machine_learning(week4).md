@@ -28,7 +28,6 @@ Specially, I use describe() function, I can check the number of missing values a
 
 There are 160 columns and 19,622 rows. However, when I check the training data set, I find a few useless columns, and I think it's better to ignore those columns.
 
-
 ## Prepossesing
 ```{r ignore column}
 # Delete the column which has only "NA" value
