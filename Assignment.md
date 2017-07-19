@@ -81,7 +81,7 @@ rpart_prediction<-predict(rpart_training,testing,type="class")
 confusionMatrix(rpart_prediction,testing$classe)
 ```
 
-
+![plot1](figure/plot1.jpg) 
 
 
 
