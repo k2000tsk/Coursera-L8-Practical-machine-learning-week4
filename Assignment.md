@@ -83,11 +83,57 @@ confusionMatrix(rpart_prediction,testing$classe)
 
 ![plot1](figure/plot1.jpg) 
 
+![plot2](figure/plot2.jpg) 
 
+I predict using rpart() function. When I draw a tree using plot() function, a little bit hard to analyze. Therefore I use prp() function, tree graph is much prettier and easy to look at.
 
+Using rpart() function, the accuracy is **76.7%**. So I need to adjust another predictive method.
 
+###2. tree() function
+```{r tree}
+# tree() function & draw a graph
+library(tree)
+tree_training<-tree(classe~.,data=training)
+tree_training
+plot(tree_training)
+text(tree_training,cex=0.6)
 
+# Predict testing values
+tree_prediction<-predict(tree_training,testing,type="class")
+confusionMatrix(tree_prediction,testing$classe)
 
+```
 
+![plot3](figure/plot3.jpg) 
 
+I predict using tree() function. Accuracy is **76.2%**, and it's less than using rpart() function. Thus I will consider another way.
 
+### 3. randomForest() function
+```{r random forest}
+# randomForest() function
+library(randomForest)
+rf_training<-randomForest(classe~.,data=training,method="class",importance=TRUE)
+rf_training
+
+# draw a graph
+varImpPlot(rf_training,main="varImpPlot of train data",cex=0.7)
+
+# check the accuracy
+rf_prediction<-predict(rf_training,testing,type="class")
+confusionMatrix(rf_prediction,testing$classe)
+```
+
+![plot4](figure/plot4.jpg) 
+
+When I use random forest method, the accuracy is **99.8%**, almost 100%. So I think random forest is the best way, and apply to real test set. 
+
+## Conclusion
+Let's look at the accuracy
+  - rpart : 76.7%
+  - tree : 76.2%
+  - random forest : 99.8%
+
+```{r test value}
+answer<-predict(rf_training,test_set,type="class")
+answer
+```
